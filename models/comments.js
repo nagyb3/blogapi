@@ -12,7 +12,7 @@ const CommentSchema = new Schema({
         required: true
     },
     creation_date: {
-        type: date,
+        type: Date,
         required: true
     }
 }) 

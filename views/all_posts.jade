@@ -1,0 +1,7 @@
+extends layout 
+
+block content 
+    h1 Title good title 
+    each post in all_posts 
+        p #{post.title}
+        p #{post.text}
