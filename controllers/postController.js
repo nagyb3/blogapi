@@ -2,12 +2,14 @@ const Post = require('../models/post');
 const Comments = require('../models/comments')
 const asyncHandler = require('express-async-handler');
 
+
 exports.all_posts = asyncHandler(async (req, res, next) => {
     const allPosts = await Post.find().exec();
-    res.render("all_posts", {
-      title: "All posts",
-      all_posts: allPosts,
-    });
+    // res.render("all_posts", {
+    //   title: "All posts",
+    //   all_posts: allPosts,
+    // });
+    res.json(allPosts)
 });
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
@@ -19,8 +21,14 @@ exports.post_detail = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  res.render("post_detail", {
-    post: post,
-    messages_list: messagesList
-  });
+  // res.render("post_detail", {
+  //   post: post,
+  //   messages_list: messagesList
+  // });
+  res.json({posts: post, comments: messagesList})
 });
+
+exports.post_create = asyncHandler(async (req, res, next) => {
+
+})
+
