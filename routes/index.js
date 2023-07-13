@@ -9,4 +9,6 @@ const post_controller = require('../controllers/postController')
 
 router.get('/', post_controller.all_posts);
 
+router.get('/:id', post_controller.post_detail)
+
 module.exports = router;
