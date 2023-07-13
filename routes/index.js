@@ -7,8 +7,12 @@ const post_controller = require('../controllers/postController')
 //   res.render('index', { title: 'Express' });
 // });
 
-router.get('/', post_controller.all_posts);
+router.get('/', (req, res) => {
+    res.redirect("/posts");
+})
 
-router.get('/:id', post_controller.post_detail)
+router.get('/posts', post_controller.all_posts);
+
+router.get('/posts/:id', post_controller.post_detail)
 
 module.exports = router;

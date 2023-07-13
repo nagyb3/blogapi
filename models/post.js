@@ -22,7 +22,7 @@ const PostSchema = new Schema({
 })
 
 PostSchema.virtual("url").get(function() {
-    return `/${this._id}`
+    return `/posts/${this._id}`
 })
 
 module.exports = mongoose.model("Post", PostSchema)
