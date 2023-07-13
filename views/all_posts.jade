@@ -1,7 +1,9 @@
 extends layout 
 
-block content 
-    h1 Title good title 
+block content
     each post in all_posts 
-        p #{post.title}
-        p #{post.text}
+        div(style="border: 1px solid black; padding: 30px;")
+            h1
+                a(href=post.url)(style="color: black; text-decoration: none")  #{post.title}
+            p Creation date: #{post.creation_date}
+            p #{post.text}
