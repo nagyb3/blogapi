@@ -14,6 +14,10 @@ const CommentSchema = new Schema({
     creation_date: {
         type: Date,
         required: true
+    },
+    post_id: {
+        type: String,
+        required: true
     }
 }) 
 

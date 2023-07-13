@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const Comments = require('../models/comments')
 const asyncHandler = require('express-async-handler');
 
 exports.all_posts = asyncHandler(async (req, res, next) => {
@@ -11,7 +12,7 @@ exports.all_posts = asyncHandler(async (req, res, next) => {
 
 exports.post_detail = asyncHandler(async (req, res, next) => {
   const post = await Post.findById(req.params.id).exec();
-
+  const messagesList = await Comments.find({post_id: req.params.id})
   if (post === null) {
     const err = new Error("Post not found");
     err.status = 404;
@@ -19,6 +20,7 @@ exports.post_detail = asyncHandler(async (req, res, next) => {
   }
 
   res.render("post_detail", {
-    post: post
+    post: post,
+    messages_list: messagesList
   });
 });

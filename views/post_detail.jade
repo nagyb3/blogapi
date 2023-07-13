@@ -5,5 +5,6 @@ block content
     p #{post.text}
     p #{post.creation_date}
     p comments:
-    //- ul
-    //-     li 
+    ul
+        each message in messages_list
+            li #{message.text}
