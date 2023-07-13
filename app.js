@@ -49,8 +49,15 @@ app.get('/posts/:id', asyncHandler(async (req, res, next) => {
 }));
 
 app.post('/posts/create', verifyToken, (req, res) => {
-  res.json({
-      message: 'Post created'
+  jwt.verify(req.token, 'secretKey', (err, authData) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      res.json({
+        message: 'Post created',
+        authData
+      });
+    }
   });
 });
 
@@ -73,7 +80,10 @@ function verifyToken(req, res, next) {
   const bearerHeader = req.headers['authorization'];
 
   if (typeof bearerHeader !== 'undefined') {
-    
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
   } else {
     res.sendStatus(403);
   };
