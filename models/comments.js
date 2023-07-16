@@ -13,7 +13,7 @@ const CommentSchema = new Schema({
     },
     creation_date: {
         type: Date,
-        required: true
+        default: new Date()
     },
     post_id: {
         type: String,

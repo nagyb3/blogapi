@@ -4,7 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
-var cors= require('cors');
+var cors = require('cors');
+var bodyParser = require('body-parser');
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -58,11 +59,20 @@ app.post('/posts/create', verifyToken, (req, res) => {
     } else {
       res.json({
         message: 'Post created',
-        authData
+        authData,
+        body: req.body
       });
     }
   });
 });
+
+app.post('/comments/create', bodyParser.json(), asyncHandler(async function(req, res) {
+  await Comments.create({
+    user_email: req.body.email,
+    text: req.body.comment,
+    post_id: req.body.postid
+  });
+}));
 
 app.post('/login', (req, res) => {
   //mock user
@@ -98,8 +108,8 @@ function verifyToken(req, res, next) {
 // app.set('view engine', 'jade');
 
 // app.use(logger('dev'));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
