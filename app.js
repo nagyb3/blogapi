@@ -52,11 +52,15 @@ app.get('/posts/:id', asyncHandler(async (req, res, next) => {
   }
 }));
 
-app.post('/posts/create', verifyToken, (req, res) => {
-  jwt.verify(req.token, 'secretKey', (err, authData) => {
+app.post('/posts/create', bodyParser.json(), verifyToken, (req, res) => {
+  jwt.verify(req.token, 'secretKey', async(err, authData) => {
     if (err) {
       res.sendStatus(403);
     } else {
+      await Post.create({
+        title: req.body.title,
+        text: req.body.postcontent
+      })
       res.json({
         message: 'Post created',
         authData,

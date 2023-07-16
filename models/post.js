@@ -13,7 +13,7 @@ const PostSchema = new Schema({
     },
     creation_date: {
         type: Date,
-        default: Date.now
+        default: new Date()
     },
     is_public: {
         type: Boolean,
