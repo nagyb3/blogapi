@@ -99,12 +99,13 @@ function verifyToken(req, res, next) {
   };
 };
 
-app.put('/posts/:postid', bodyParser.json(), (req, res) => {
-  console.log(req.body.postid);
-  console.log(req.body.title);
-  console.log(req.body.textcontent);
-  console.log(req.body.isPublic);
-})
+app.put('/posts/:postid', bodyParser.json(), asyncHandler(async(req, res) => {
+  const doc = await Post.findById(req.body.id)
+  doc.title = req.body.title;
+  doc.text = req.body.text;
+  doc.is_public = req.body.isPublic;
+  await doc.save();
+}));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
