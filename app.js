@@ -107,6 +107,14 @@ app.put('/posts/:postid', bodyParser.json(), asyncHandler(async(req, res) => {
   await doc.save();
 }));
 
+app.delete('/posts/:postid', bodyParser.json(), asyncHandler(async(req, res) => {
+  await Post.findByIdAndDelete(req.body.postid); 
+}));
+
+app.delete('/comments/:commentid', bodyParser.json(), asyncHandler(async(req, res) => {
+  await Comments.findByIdAndDelete(req.body.commentid); 
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
