@@ -1,14 +1,9 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
 var mongoose = require('mongoose');
 var cors = require('cors');
 var bodyParser = require('body-parser');
-
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 
 require('dotenv').config();
 
@@ -22,7 +17,6 @@ app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 })
 
-//added
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler')
 const Post = require('./models/post')
@@ -105,20 +99,15 @@ function verifyToken(req, res, next) {
   };
 };
 
-//END --------
+app.put('/posts/:postid', bodyParser.json(), (req, res) => {
+  console.log(req.body.postid);
+  console.log(req.body.title);
+  console.log(req.body.textcontent);
+  console.log(req.body.isPublic);
+})
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
-
-// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
