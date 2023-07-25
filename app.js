@@ -9,6 +9,11 @@ const session = require("express-session");
 const passport = require("passport");
 require('dotenv').config();
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler')
+const Post = require('./models/post')
+const Comments = require('./models/comments')
+
 
 const port = process.env.PORT || 5000;
 const User = require('./models/user');
@@ -25,10 +30,6 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-const jwt = require('jsonwebtoken');
-const asyncHandler = require('express-async-handler')
-const Post = require('./models/post')
-const Comments = require('./models/comments')
 
 app.get('/', (req, res) => {
   res.redirect("/posts");
