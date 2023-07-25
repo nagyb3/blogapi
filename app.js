@@ -85,12 +85,21 @@ passport.use(
     try {
       const user = await User.findOne({ username: username });
       if (!user) {
+        // return done(null, false, { message: "Incorrect username" });
         return done(null, false, { message: "Incorrect username" });
       };
-      if (user.password !== password) {
-        return done(null, false, { message: "Incorrect password" });
-      };
-      return done(null, user);
+      // if (user.password !== password) {
+      //   return done(null, false, { message: "Incorrect password" });
+      // };
+      bcryptjs.compare(password, user.password, (err, result) => {
+        if (err) throw err;
+        if (result === true) {
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      })
+      // return done(null, user);
     } catch(err) {
       return done(err);
     };
@@ -110,13 +119,10 @@ passport.deserializeUser(async function(id, done) {
   };
 });
 
-app.post(
-  "/log-in",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/"
-  })
-);
+app.post("/login", bodyParser.json(), passport.authenticate("local"), (req, res) => {
+  res.send("Logged in sucessfully");
+});
+
 
 app.post("/signup", bodyParser.json(), async(req, res) => {
   //TODO: handle if username or password is not string
