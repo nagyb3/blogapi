@@ -10,22 +10,21 @@ const passport = require("passport");
 require('dotenv').config();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const asyncHandler = require('express-async-handler')
-const Post = require('./models/post')
-const Comments = require('./models/comments')
-
+const asyncHandler = require('express-async-handler');
+const Post = require('./models/post');
+const Comments = require('./models/comments');
+const User = require('./models/user');
 
 const port = process.env.PORT || 5000;
-const User = require('./models/user');
 
 var app = express();
 
-app.use(cors());
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 })
 
+app.use(cors());
 app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
