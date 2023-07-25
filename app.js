@@ -95,7 +95,6 @@ passport.use(
           return done(null, false);
         }
       })
-      // return done(null, user);
     } catch(err) {
       return done(err);
     };
@@ -116,7 +115,12 @@ passport.deserializeUser(async function(id, done) {
 });
 
 app.post("/login", bodyParser.json(), passport.authenticate("local"), (req, res) => {
-  res.send("Logged in sucessfully");
+  // res.send("Logged in sucessfully");
+  jwt.sign({ username: req.body.username, password: req.body.password }, 'secretKey', (err, token) => {
+    res.json({
+      token
+    });
+  })
 });
 
 
