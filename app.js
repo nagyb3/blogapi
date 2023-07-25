@@ -85,12 +85,8 @@ passport.use(
     try {
       const user = await User.findOne({ username: username });
       if (!user) {
-        // return done(null, false, { message: "Incorrect username" });
         return done(null, false, { message: "Incorrect username" });
       };
-      // if (user.password !== password) {
-      //   return done(null, false, { message: "Incorrect password" });
-      // };
       bcryptjs.compare(password, user.password, (err, result) => {
         if (err) throw err;
         if (result === true) {
@@ -125,7 +121,9 @@ app.post("/login", bodyParser.json(), passport.authenticate("local"), (req, res)
 
 
 app.post("/signup", bodyParser.json(), async(req, res) => {
-  //TODO: handle if username or password is not string
+  if (req.body.username === undefined || req.body.password === undefined) {
+    res.send("No username or password given!");
+  } else {
   const hashPassword = await bcryptjs.hash(req.body.password, 10);
   const newUser = new User({
       username: req.body.username,
@@ -133,6 +131,7 @@ app.post("/signup", bodyParser.json(), async(req, res) => {
   });
   await newUser.save();
   res.send("Sucess!!");
+}
 })
 
 function verifyToken(req, res, next) {
