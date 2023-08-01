@@ -190,7 +190,14 @@ const mongoDB = process.env.MONGODB_URL;
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 
-main().catch((err) => console.log(err));
+main()
+.then(err => {
+  if (!err) {
+    console.log('Successfully connected to db!')
+  }
+})
+.catch((err) => console.log(err));
+
 async function main() {
   await mongoose.connect(mongoDB);
 }
